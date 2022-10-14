@@ -11,9 +11,9 @@ datasource db {
 }
 
 model User {
-  id                  Int                 @id @default(autoincrement()) @map("roll_number")
+  id                  String              @id
   name                String
-  phone               String              @db.VarChar(10)
+  phone               String              @db.Char(10)
   role                Role                @default(STUDENT)
   email               String
   password            String
@@ -21,6 +21,8 @@ model User {
   Company_Application Company_Applicant[]
   departmentId        Int
   department          Department          @relation(fields: [departmentId], references: [id])
+  company_id          Int?
+  company             Company?            @relation(fields: [company_id], references: [id])
 
   @@map("Users")
 }
@@ -32,25 +34,26 @@ model Company {
   eligibile_departments String
   description           String              @db.Text
   Company_Application   Company_Applicant[]
+  User                  User[]
 
   @@map("Companies")
 }
 
 model Company_Applicant {
-  id             Int     @id @default(autoincrement())
-  company_id     Int
-  company        Company @relation(fields: [company_id], references: [id])
-  student_id     Int
-  student        User    @relation(fields: [student_id], references: [id])
-  is_selected    Boolean @default(false)
-  is_shortlisted Boolean @default(false)
+  id                 Int     @id @default(autoincrement())
+  company_id         Int
+  company            Company @relation(fields: [company_id], references: [id])
+  student_id         String
+  student            User    @relation(fields: [student_id], references: [id])
+  application_status Status  @default(INPROCESS)
 }
 
 model Announcement {
   id          Int          @id @default(autoincrement())
+  title       String
   description String       @db.Text
   LastEdited  DateTime     @updatedAt
-  author_id   Int
+  author_id   String
   author      User         @relation(fields: [author_id], references: [id])
   Department  Department[] @relation("Announcement_Department")
 
@@ -64,6 +67,13 @@ model Department {
   Announcements Announcement[] @relation("Announcement_Department")
 
   @@map("Departments")
+}
+
+enum Status {
+  INPROCESS
+  REJECTED
+  SHORTLISTED
+  PLACED
 }
 
 enum Role {
