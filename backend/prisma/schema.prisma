@@ -17,10 +17,11 @@ model User {
   role                Role                @default(STUDENT)
   email               String
   password            String
+  cgpa                Decimal?
   Announcement        Announcement[]
   Company_Application Company_Applicant[]
   departmentId        Int?
-  department          Department?          @relation(fields: [departmentId], references: [id])
+  department          Department?         @relation(fields: [departmentId], references: [id])
   company_id          Int?
   company             Company?            @relation(fields: [company_id], references: [id])
 
@@ -31,7 +32,7 @@ model Company {
   id                    Int                 @id @default(autoincrement())
   name                  String
   cgpa_criteria         Decimal
-  eligibile_departments String
+  eligible_departments Department[]        @relation("Company_Departments")
   description           String              @db.Text
   Company_Application   Company_Applicant[]
   User                  User[]
@@ -61,10 +62,11 @@ model Announcement {
 }
 
 model Department {
-  id            Int            @id 
+  id            Int            @id
   name          String         @unique
   Users         User[]
   Announcements Announcement[] @relation("Announcement_Department")
+  Company       Company[]      @relation("Company_Departments")
 
   @@map("Departments")
 }
