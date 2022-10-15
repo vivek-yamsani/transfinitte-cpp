@@ -38,21 +38,21 @@ router.get("/all", async (req, res) => {
                     application_status: true
                 }
             });
-            applied_compaines.map((i) => {
-                i = i.company;
-            })
             let result = []
             for (let i = 0; i < eligible_companies.length; i++) {
                 let isApplied = 0;
+                let application_status;
                 for (let j = 0; j < applied_compaines.length; j++) {
-                    if (eligible_companies[i].id == applied_compaines[j].id) {
+                    if (eligible_companies[i].id == applied_compaines[j].company.id) {
                         isApplied = 1;
+                        application_status = applied_compaines[j].application_status;
                         break;
                     }
                 }
                 result.push({
                     isApplied,
-                    company: eligible_companies[i]
+                    company: eligible_companies[i],
+                    application_status
                 });
             }
             res.json(result);
