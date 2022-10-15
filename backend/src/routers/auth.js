@@ -19,7 +19,6 @@ router.post('/login', async function (req, res) {
                     token: await createToken({ id: user.id }),
                     user: { name: user.name, email: user.email, id: user.id },
                 });
-                // res.status(200).json({ authenticated: true, message: "successfully loggedin .." });
             } else
                 res.status(401).json({
                     authenticated: false,
@@ -40,12 +39,15 @@ router.post('/login', async function (req, res) {
 
 router.post('/register', async function (req, res) {
     try {
-        const { id, name, phone, email, password, departmentId } = req.body;
-        if (!email || !password || !name || !phone || !id || !departmentId) {
+        const { id, name, phone, email, password } = req.body;
+        if (!email || !password || !name || !phone || !id) {
             return res.status(401).json({
                 message: "Invalid Request",
             });
         }
+        let departmentId;
+        if ('0' <= id[0] <= '9')
+            departmentId = parseInt(id[1]) * 10 + parseInt(id[2]);
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
         const check = await prisma.user.findUnique({
@@ -60,16 +62,30 @@ router.post('/register', async function (req, res) {
             });
         }
         let user;
-        user = await prisma.user.create({
-            data: {
-                id,
-                name,
-                phone,
-                email,
-                password: hashedPassword,
-                departmentId
-            },
-        });
+        if (departmentId) {
+            user = await prisma.user.create({
+                data: {
+                    id,
+                    name,
+                    phone,
+                    email,
+                    password: hashedPassword,
+                    departmentId: departmentId
+                },
+            });
+        }
+        else {
+            user = await prisma.user.create({
+                data: {
+                    id,
+                    name,
+                    phone,
+                    email,
+                    password: hashedPassword
+                },
+            });
+
+        }
         console.log(user);
         res.json({ message: "Successfully registered...." });
     } catch (err) {

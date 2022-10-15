@@ -10,8 +10,11 @@ app.use(express.urlencoded({ extended: true }))
 const port = process.env.PORT || 3000;
 
 const { authRouter } = require("./src/routers/auth");
+const { announcementRouter } = require("./src/routers/announcements");
+const { verifyToken } = require("./src/helpers/jwt");
 
 app.use("/auth", authRouter);
+app.use("/announcements", verifyToken, announcementRouter);
 
 app.all('*', async (req, res) => {
     res.status(404).json({
