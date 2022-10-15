@@ -18,7 +18,7 @@ const { departmentRouter } = require("./src/routers/departments");
 app.use("/auth", authRouter);
 app.use("/announcements", verifyToken, announcementRouter);
 app.use("/companies", verifyToken, companyRouter);
-app.use("/departments", departmentRouter);
+app.use("/departments", verifyToken, departmentRouter);
 
 app.all('*', async (req, res) => {
     res.status(404).json({

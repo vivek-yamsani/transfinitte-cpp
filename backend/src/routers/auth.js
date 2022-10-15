@@ -98,4 +98,42 @@ router.post('/register', async function (req, res) {
     }
 });
 
+router.post("/reset_password", async (req, res) => {
+    try {
+        const { id, old_password, new_password } = req.body;
+        const user = await prisma.user.findUnique({
+            where:
+            {
+                id,
+            }
+        });
+        const check = await bcrypt.compare(old_password, user.password);
+        if (check) {
+            const salt = await bcrypt.genSalt();
+            const newhashedPassword = await bcrypt.hash(new_password, salt);
+            await prisma.user.update({
+                where: {
+                    id: id
+                },
+                data: {
+                    password: newhashedPassword
+                }
+            });
+            return res.json({
+                message: "Successfully changed the password"
+            });
+        }
+        else {
+            return res.status(401).json({
+                message: "password is incorrect"
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "Something went wrong!"
+        });
+    }
+})
+
 module.exports = { authRouter: router };

@@ -34,22 +34,68 @@ router.get("/all", async (req, res) => {
                     student_id: req.id
                 },
                 select: {
-                    company: true
+                    company: true,
+                    application_status: true
                 }
             });
             applied_compaines.map((i) => {
-                i = i.company
-            });
-            res.json({
-                eligible_companies,
-                applied_compaines
-            });
+                i = i.company;
+            })
+            let result = []
+            for (let i = 0; i < eligible_companies.length; i++) {
+                let isApplied = 0;
+                for (let j = 0; j < applied_compaines.length; j++) {
+                    if (eligible_companies[i].id == applied_compaines[j].id) {
+                        isApplied = 1;
+                        break;
+                    }
+                }
+                result.push({
+                    isApplied,
+                    company: eligible_companies[i]
+                });
+            }
+            res.json(result);
         }
     } catch (err) {
         console.log(err);
-
+        res.status(500).json({
+            message: "Something went wrong..!"
+        })
     }
 });
+
+router.post("/apply/:id", async (req, res) => {
+    try {
+        const companyId = parseInt(req.params.id);
+        const { student_id } = req.body;
+        if (isNaN(companyId) || !student_id) {
+            return res.status(400).json({
+                message: "Invalid Request.."
+            })
+        }
+        if (req.Role == "ADMIN" || req.Role == "REPRESENTATIVE") {
+            return res.status(400).json({
+                message: "Only students can apply"
+            });
+        }
+        await prisma.company_Applicant.create({
+            data: {
+                student_id: student_id,
+                company_id: companyId
+            }
+        });
+
+        res.json({
+            message: "Successfully applied for company"
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "Something went wrong..!"
+        })
+    }
+})
 
 router.get("/get/:id", async (req, res) => {
     try {
@@ -59,9 +105,15 @@ router.get("/get/:id", async (req, res) => {
                 message: "Invalid Request.."
             })
         }
-        const company = await prisma.company_Applicant.findMany({
+        if (req.Role != "ADMIN" && req.Role != "REPRESENTATIVE") {
+            return res.status(403).json({
+                message: "Unauthorized.."
+            });
+        }
+        const students = await prisma.company_Applicant.findMany({
             where: {
-                id: companyId
+                company_id: companyId,
+                student_id: req.id,
             },
             select: {
                 student_id: true,
@@ -76,7 +128,8 @@ router.get("/get/:id", async (req, res) => {
         company.map((i) => {
             i.student = i.student.name
         });
-        res.json(company);
+        res.json(students);
+
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -183,9 +236,9 @@ router.post("/add_finalList/:id", async (req, res) => {
 
 router.post("/create", async (req, res) => {
     try {
-        const { name, cgpa_criteria, eligible_departments, description } = req.body
+        const { name, cgpa_criteria, eligible_departments, description, role } = req.body
         // console.log(name, cgpa_criteria, eligible_departments, description);
-        if (!name || !cgpa_criteria || !eligible_departments || !description) {
+        if (!name || !cgpa_criteria || !eligible_departments || !description || !role) {
             return res.status(400).json({
                 message: "Invalid Request..!"
             })
@@ -200,7 +253,8 @@ router.post("/create", async (req, res) => {
                 name,
                 cgpa_criteria,
                 eligible_departments: { connect: eligible_departments },
-                description
+                description,
+                role
             }
         });
         res.json({

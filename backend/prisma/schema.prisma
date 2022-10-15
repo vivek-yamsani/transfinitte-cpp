@@ -29,13 +29,15 @@ model User {
 }
 
 model Company {
-  id                    Int                 @id @default(autoincrement())
-  name                  String
-  cgpa_criteria         Decimal
+  id                   Int                 @id @default(autoincrement())
+  name                 String
+  cgpa_criteria        Decimal
+  role                 String
+  createdAt            DateTime            @updatedAt
   eligible_departments Department[]        @relation("Company_Departments")
-  description           String              @db.Text
-  Company_Application   Company_Applicant[]
-  User                  User[]
+  description          String              @db.Text
+  Company_Application  Company_Applicant[]
+  User                 User[]
 
   @@map("Companies")
 }
