@@ -24,7 +24,13 @@ export const GetAnnouncements = async ({ id }) => {
     
 ]
 }
-
+export const GetAllCompanies=async ({id})=>{
+    return [{title:'Microsoft India',role:'Software Engineering',sal:200000,createdAt:'02/12/22'}
+    ,{title:'Microsoft India',role:'Software Engineering',sal:200000,createdAt:'02/12/22'},
+    {title:'Microsoft India',role:'Software Engineering',sal:200000,createdAt:'02/12/22',},
+    {title:'Microsoft India',role:'Software Engineering',sal:200000,createdAt:'02/12/22',}]
+       
+}
 export const GetCompanies = async ({ id }) => {
     console.log(('Companies fetching..'));
     return [{title:'Microsoft India',role:'Software Engineering',sal:200000,createdAt:'02/12/22',status:'applied'}

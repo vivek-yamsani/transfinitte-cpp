@@ -1,7 +1,7 @@
 import { VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Wrap, Heading } from "@chakra-ui/react";
-import { GetAnnouncements } from "../../fetchData";
+import { GetAllCompanies, GetAnnouncements } from "../../fetchData";
 import { Announcecard } from "../cards/announcementCard";
 import { Companiescard } from "../cards/comapniesCard";
 import { GetCompanies } from "../../fetchData";
@@ -11,7 +11,8 @@ export function Companies({ id }) {
         return <Companiescard title={item.title} role={item.role} sal={item.sal} status={item.status} createdAt={item.createdAt}/>
     })
     useEffect(async () => {
-        const res = await GetCompanies({ id });
+        // const res = await GetCompanies({ id });//for student
+        const res=await GetAllCompanies({id})//for cicrep
         setannouncements(res);
     }, [])
     return (

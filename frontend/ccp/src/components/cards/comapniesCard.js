@@ -14,7 +14,7 @@ export function Companiescard({ title, role, status, sal, id, set_selected, crea
             color={'black'}
             p={5}
             borderTopWidth={20}
-                borderColor={status==='applied'?'teal':(status==='shortlisted'?'yellow.400':'red')} 
+                borderColor={status==='applied'?'teal':(status==='shortlisted'?'yellow.400':status==='rejected'?'red':'inherit')} 
             boxShadow={'0 0 20px 15px'}
             borderRadius={10}
         >

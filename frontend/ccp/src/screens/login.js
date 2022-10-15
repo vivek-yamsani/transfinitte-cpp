@@ -35,7 +35,7 @@ export default function Login() {
             spacing={0}
             pt={0}
         >
-            <Heading color={'pink.400'} bg={'black'} p={5} borderBottomWidth='1px' borderColor={'pink.400'}>Poll Booth
+            <Heading color={'pink.400'} bg={'black'} p={5} borderBottomWidth='1px' borderColor={'pink.400'}>Campus Placement Portal
             </Heading>
             <VStack align={'center'} justify={'center'} flex={1}>
             <HStack bg={'blackAlpha.600'} padding={20} pt='10' borderRadius={20} marginBottom={40}
