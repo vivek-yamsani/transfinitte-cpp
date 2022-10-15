@@ -23,7 +23,7 @@ router.get('/all', async (req, res) => {
             return res.json(announcements);
         }
         else {
-            const departmentId = parseInt(req.id.substrin(1, 3));
+            const departmentId = parseInt(req.id.substring(1, 3));
             const announcements = await prisma.announcement.findMany({
                 where: {
                     departments: {

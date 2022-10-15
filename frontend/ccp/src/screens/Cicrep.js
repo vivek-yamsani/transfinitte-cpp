@@ -13,7 +13,7 @@ export function CicRep() {
         <Flex
             w={'100%'}
             h={'100%'}
-            pt={0}
+            pt={0} 
             mt={'-1'}
         >
             <Tabs w={'100%'} variant='soft-rounded'>
@@ -23,10 +23,10 @@ export function CicRep() {
                 </TabList>
                 <TabPanels >
                     <TabPanel>
-                        < Anouncements/>
+                        < Anouncements role={'REPRESENTATIVE'}/>
                     </TabPanel>
                     <TabPanel>
-                        <Companies/>
+                        <Companies role={'REPRESENTATIVE'}/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

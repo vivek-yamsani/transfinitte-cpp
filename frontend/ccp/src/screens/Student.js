@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom'
 export function Student() {
     const location = useLocation();
     const studentid = location.state.id;
+    console.log("state:",location.state);
     return (
         <Flex
             w={'100%'}
@@ -21,16 +22,15 @@ export function Student() {
                     <Tab flex={1} _selected={{ color: 'white', bg: 'teal' }} color={'white'}>Announcements</Tab>
                     <Tab flex={1} _selected={{ color: 'white', bg: 'teal' }} color={'white'}>Current Companies</Tab>
                 </TabList>
-                <TabPanels >
+                <TabPanels>
                     <TabPanel>
-                        < Anouncements id={studentid} />
+                        < Anouncements id={studentid} role='STUDENT'/>
                     </TabPanel>
                     <TabPanel>
-                        <Companies id={studentid} />
+                        <Companies id={studentid} role='STUDENT'/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>
-
         </Flex >
     )
 }
