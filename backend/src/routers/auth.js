@@ -6,7 +6,7 @@ const { createToken } = require("../helpers/jwt");
 router.post('/login', async function (req, res) {
     try {
         const { id, password } = req.body;
-        // console.log(id, password);
+        console.log(req.body);
         const user = await prisma.user.findUnique({
             where: {
                 id: id,
@@ -17,7 +17,7 @@ router.post('/login', async function (req, res) {
             if (result) {
                 res.json({
                     token: await createToken({ id: user.id }),
-                    user: { name: user.name, email: user.email, id: user.id },
+                    user: { name: user.name, email: user.email, id: user.id,role:user.role },
                 });
             } else
                 res.status(401).json({
@@ -42,7 +42,8 @@ router.post('/register', async function (req, res) {
         const { id, name, phone, email, password } = req.body;
         if (!email || !password || !name || !phone || !id) {
             return res.status(401).json({
-                message: "Invalid Request",
+                message: req.body,
+                body:req.body,
             });
         }
         let departmentId;
@@ -54,7 +55,7 @@ router.post('/register', async function (req, res) {
             where: {
                 id: id,
             },
-        });
+        }); 
         if (check) {
             console.log(id, " already registered..");
             return res.status(400).json({
@@ -93,7 +94,7 @@ router.post('/register', async function (req, res) {
         res.status(500).json({
             message: "Something went wrong!"
         });
-    }
+    }   
 });
 
 module.exports = { authRouter: router };

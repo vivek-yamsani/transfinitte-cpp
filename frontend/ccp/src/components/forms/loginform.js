@@ -14,6 +14,7 @@ import {
     FormControl,
     FormLabel,
     Input,
+    Show,
 } from '@chakra-ui/react'
 // import { Add_Option, Add_Poll, Add_Team, Login } from '../../fetchData';
 import { Login } from '../../fetchData';
@@ -30,6 +31,17 @@ export default function LoginForm({id}) {
     const isStudent=(id===1);
     const isCicrep=(id==2);
     const [details, setdetails] = useState([]);
+    function showToast(){
+        toast(
+            {
+                status: 'success',
+                variant: 'left-accent',
+                position: 'bottom-right',
+                title: `Welcome to NITT Placement Portal`,
+                isClosable: true,
+            }
+        )
+    }
     const { isOpen, onOpen, onClose } = useDisclosure();
     const mclose = () => {
         onClose();
@@ -38,49 +50,70 @@ export default function LoginForm({id}) {
         console.log('from useeffect', details);
         console.log("loading",isLoading);
         if (details.length !== 0) {
-            toast(
-                {
-                    status: 'success',
-                    variant: 'left-accent',
-                    position: 'bottom-right',
-                    title: `Welcome to NITT Placement Portal`,
-                    isClosable: true,
-                }
-            )
-            if(isStudent)
+            const st=details.status;
+            const data=details.data;
+            if(st==200){
+                const role=data.user.role;
+                if(isStudent&&role==='STUDENT'){
+                showToast();
             navigate(
                 '/app/student',
                 {
                     state: {
-                        id:1,
-                        name: 'Yeshwanth',
+                        id:data.user.id,
+                        name: data.user.name,
                     }
                 }
-            )
+            )}
             else
-            if(isCicrep)
+            if(isCicrep&&role==='REPRESENTATIVE'){
+                showToast();
             navigate(
                 '/app/cicrep',
                 {
                     state: {
-                        id:1,
-                        name: 'Yeshwanth',
+                        id:data.user.id,
+                        name: data.user.name,
                     }
                 }
             )
+            }
             else
-            if(isAdmin)
+            if(isAdmin&&role==='ADMIN'){
+                showToast();
             navigate(
                 '/app/admin',
                 {
                     state: {
-                        id:1,
-                        name: 'Yeshwanth',
+                        id:data.user.id,
+                        name: data.user.name,
                     }
                 }
-            )
-            setLoading(false);
-        } else if (isLoading == true) {
+            )}
+            else{
+                toast(
+                    {
+                        status: 'error',
+                        variant: 'left-accent',
+                        position: 'bottom-right',
+                        title: `Role Invalid`,
+                        isClosable: true,
+                    }
+                ) 
+            }
+            }
+            else{
+                toast(
+                    {
+                        status: 'error',
+                        variant: 'left-accent',
+                        position: 'bottom-right',
+                        title: `${data.message}`,
+                        isClosable: true,
+                    }
+                )
+            }
+        }else if(isLoading===true){
             toast(
                 {
                     status: 'error',
@@ -92,6 +125,7 @@ export default function LoginForm({id}) {
             )
             setLoading(false);
         }
+            setLoading(false);
     }, [details]);
     return (
         <div>
@@ -116,7 +150,8 @@ export default function LoginForm({id}) {
                 <Button colorScheme='blue' mr={3} isLoading={isLoading}
                     onClick={async () => {
                         setLoading(true)
-                        const res=await Login({ rollno, password, setdetails });
+                        console.log("Entries:",rollno,password);
+                        const res=await Login({ rollno, password });
                         console.log("Response.....:",res);
                         setdetails(res);   
                     }}
