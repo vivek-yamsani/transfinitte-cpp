@@ -125,7 +125,7 @@ router.get("/get/:id", async (req, res) => {
                 application_status: true
             }
         });
-        company.map((i) => {
+        students.map((i) => {
             i.student = i.student.name
         });
         res.json(students);
