@@ -39,8 +39,8 @@ router.post('/login', async function (req, res) {
 
 router.post('/register', async function (req, res) {
     try {
-        const { id, name, phone, email, password } = req.body;
-        if (!email || !password || !name || !phone || !id) {
+        const { id, name, phone, email, password, cgpa } = req.body;
+        if (!email || !password || !name || !phone || !id || !cgpa) {
             return res.status(401).json({
                 message: req.body,
                 body:req.body,
@@ -70,6 +70,7 @@ router.post('/register', async function (req, res) {
                     name,
                     phone,
                     email,
+                    cgpa,
                     password: hashedPassword,
                     departmentId: departmentId
                 },
@@ -82,6 +83,7 @@ router.post('/register', async function (req, res) {
                     name,
                     phone,
                     email,
+                    cgpa,
                     password: hashedPassword
                 },
             });
