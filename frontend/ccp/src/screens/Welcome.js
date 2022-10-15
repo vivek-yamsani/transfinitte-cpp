@@ -8,8 +8,12 @@ import {
     ModalCloseButton,
     useDisclosure,
     FormControl,
+    Box,
     Text,
+    Img,
+    Image,
     FormLabel,
+    Center,
     Input,
     Button,
 } from "@chakra-ui/react"
@@ -28,20 +32,24 @@ export default function Welcome() {
             align={'stretch'}
             padding={0}
             spacing={0}
+            overflow={'hidden'}
             pt={0}
         >
-            <Heading color={'pink.400'} bg={'black'} p={5} borderBottomWidth='1px' borderColor={'pink.400'}>Campus Palcement Portal
+            <Heading color={'pink.400'} bg={'black'} p={5} borderBottomWidth='1px' borderColor={'pink.400'}>Campus Placement Portal
             </Heading>
-            <Heading color={'white'} textAlign='center' pt='50'>Login</Heading>
-            <VStack align={'center'} justify={'center'} flex={1}>
+            <HStack padding={'30'} paddingLeft='100' spacing={250}>
+            <VStack >
+
+            <Heading color={'white'} textAlign='center' pt='2'>Login</Heading>
                 <VStack bg={'blackAlpha.600'} paddingY={20} paddingX={150} borderRadius={20} marginBottom={40}
                     spacing={10}
+                    
                     color={'white'}
                     align='strech'
                     justify={'center'}
                 >
                     <Button colorScheme={'cyan'} p={12} _hover={{
-                            padding:'50'
+                            opacity:(0.5)
                     }}
                     onClick={()=>
                         navigate(
@@ -52,10 +60,10 @@ export default function Welcome() {
                                 }
                             }
                             )
-                    }
-                    >Student</Button>
+                        }
+                        >Student</Button>
                     <Button colorScheme={'cyan'} p={12} _hover={{
-                            padding:'50'
+                            opacity:(0.5)
                     }}
                     onClick={()=>{
                         navigate(
@@ -69,7 +77,7 @@ export default function Welcome() {
                     }}
                     >Representative</Button>
                     <Button colorScheme={'cyan'} p={12} _hover={{
-                            padding:'50'
+                         opacity:(0.5)
                     }}
                     onClick={()=>
                         navigate(
@@ -80,10 +88,24 @@ export default function Welcome() {
                                 }
                             }
                             )
-                    }
+                        }
                     >Admin</Button>
+                        </VStack>
                 </VStack>
-            </VStack>
+                <Box   >
+                <Image
+  borderRadius='50%'
+  borderColor='red'
+  borderWidth='100px'
+  boxSize='md'
+  
+  src={require('../images/capstone.jpg')}
+  alt='Dan Abramov'
+/>
+<Heading color={'pink'}>Training and Placement Cell<br/><Center>Nit Trichy
+    </Center></Heading>
+                </Box>
+         </HStack>
         </VStack>
     )
 }
