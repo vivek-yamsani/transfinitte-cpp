@@ -19,8 +19,8 @@ model User {
   password            String
   Announcement        Announcement[]
   Company_Application Company_Applicant[]
-  departmentId        Int
-  department          Department          @relation(fields: [departmentId], references: [id])
+  departmentId        Int?
+  department          Department?          @relation(fields: [departmentId], references: [id])
   company_id          Int?
   company             Company?            @relation(fields: [company_id], references: [id])
 
@@ -55,14 +55,14 @@ model Announcement {
   LastEdited  DateTime     @updatedAt
   author_id   String
   author      User         @relation(fields: [author_id], references: [id])
-  Department  Department[] @relation("Announcement_Department")
+  departments Department[] @relation("Announcement_Department")
 
   @@map("Announcements")
 }
 
 model Department {
-  id            Int            @id @default(autoincrement())
-  name          String
+  id            Int            @id 
+  name          String         @unique
   Users         User[]
   Announcements Announcement[] @relation("Announcement_Department")
 

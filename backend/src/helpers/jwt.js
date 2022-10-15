@@ -29,11 +29,21 @@ const verifyToken = async (req, res, next) => {
                     message: "Invalid token or Token expired"
                 });
             }
-
-            req.roll_number = decoded.roll_number;
+            // console.log(decoded);
+            req.id = decoded.id;
+            const user = await prisma.user.findUnique({
+                where: {
+                    id: req.id
+                },
+                select: {
+                    role: true
+                }
+            });
+            req.Role = user.role;
+            // console.log(user.role, typeof (user.role), req.Role);
+            next();
         });
 
-        next();
     } catch (err) {
         console.log(err);
         res.status(500).json({
