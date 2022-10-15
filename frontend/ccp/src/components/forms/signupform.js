@@ -24,7 +24,7 @@ export default function SignupForm({ onClose }) {
     const toast = useToast();
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
-    const [email, setemail] = useState('');
+    const [rollno, setrollno] = useState('');
     const [password, setpassword] = useState('');
     const [name, setname] = useState('');
 
@@ -64,10 +64,10 @@ export default function SignupForm({ onClose }) {
                 }} value={name} color='blue.200' />
             </FormControl>
             <FormControl paddingY={2}>
-                <FormLabel color={'white'}>User id</FormLabel>
-                <Input placeholder={'Enter your email id'} onChange={(event) => {
-                    setemail(event.target.value)
-                }} value={email} color='blue.200' />
+                <FormLabel color={'white'}>Roll no</FormLabel>
+                <Input placeholder={'Enter your rollno id'} onChange={(event) => {
+                    setrollno(event.target.value)
+                }} value={rollno} color='blue.200' />
             </FormControl>
             <FormControl  paddingY={2}>
                 <FormLabel color={'white'}>password</FormLabel>
@@ -85,7 +85,7 @@ export default function SignupForm({ onClose }) {
                 <Button colorScheme='blue' mr={3} isLoading={isLoading}
                     onClick={async () => {
                         setLoading(true)
-                        // await Signup({ name,email, password, setdetails });
+                        // await Signup({ name,rollno, password, setdetails });
                         console.log("details", details);
                     }}
                 >

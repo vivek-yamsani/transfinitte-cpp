@@ -16,15 +16,19 @@ import {
     Input,
 } from '@chakra-ui/react'
 // import { Add_Option, Add_Poll, Add_Team, Login } from '../../fetchData';
+import { Login } from '../../fetchData';
 import { useEffect, useState } from 'react';
 import { createSearchParams, useNavigate } from "react-router-dom";
-import SignupForm from './signupform.js';
-export default function LoginForm() {
+import SignupForm from './signupform';
+export default function LoginForm({id}) {
     const toast = useToast();
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [rollno, setrollno] = useState('');
     const [password, setpassword] = useState('');
+    const isAdmin=(id===3);
+    const isStudent=(id===1);
+    const isCicrep=(id==2);
     const [details, setdetails] = useState([]);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const mclose = () => {
@@ -39,16 +43,39 @@ export default function LoginForm() {
                     status: 'success',
                     variant: 'left-accent',
                     position: 'bottom-right',
-                    title: `Welcome to NITT Placement Portal :)${details}`,
+                    title: `Welcome to NITT Placement Portal`,
                     isClosable: true,
                 }
             )
+            if(isStudent)
             navigate(
-                '/app/teams',
+                '/app/student',
                 {
                     state: {
-                        id: parseInt(details[0]['id']),
-                        name: details[0]['name'],
+                        id:1,
+                        name: 'Yeshwanth',
+                    }
+                }
+            )
+            else
+            if(isCicrep)
+            navigate(
+                '/app/cicrep',
+                {
+                    state: {
+                        id:1,
+                        name: 'Yeshwanth',
+                    }
+                }
+            )
+            else
+            if(isAdmin)
+            navigate(
+                '/app/admin',
+                {
+                    state: {
+                        id:1,
+                        name: 'Yeshwanth',
                     }
                 }
             )
@@ -59,7 +86,7 @@ export default function LoginForm() {
                     status: 'error',
                     variant: 'left-accent',
                     position: 'bottom-right',
-                    title: `Please Check your credentials or try signing up${details}`,
+                    title: `Please Check your credentials or try signing up`,
                     isClosable: true,
                 }
             )
@@ -70,7 +97,7 @@ export default function LoginForm() {
         <div>
             <Heading color={'pink.400'} textAlign='center' pb={10} pt={0}>Login</Heading>
             <FormControl isRequired>
-                <FormLabel color={'white'} >Roll No</FormLabel>
+                <FormLabel color={'white'} >{isAdmin?'Admin Id':'Rollno'}</FormLabel>
                 <Input placeholder={'username'} onChange={(event) => {
                     setrollno(event.target.value)
                 }} value={rollno} color='blue.200' />
@@ -89,15 +116,17 @@ export default function LoginForm() {
                 <Button colorScheme='blue' mr={3} isLoading={isLoading}
                     onClick={async () => {
                         setLoading(true)
-                        // const res=await Login({ rollno, password, setdetails });
-                        const res=[];
+                        const res=await Login({ rollno, password, setdetails });
                         console.log("Response.....:",res);
                         setdetails(res);   
                     }}
                 >
                     Login
                 </Button>
+                {
+                (!isAdmin)&&
                 <Button colorScheme={'blue'} onClick={onOpen}>Signup</Button>
+                }
                 <Modal
                     isOpen={isOpen}
                     onClose={mclose}

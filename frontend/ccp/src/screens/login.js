@@ -10,11 +10,21 @@ import { Heading, Spacer, StackDivider, VStack, Divider, HStack , Modal,
     FormLabel,
     Input,
 } from "@chakra-ui/react"
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import LoginForm from "../components/forms/loginform";
 export default function Login() {
-   
+   const navigate=useNavigate();
+   const location=useLocation();
+   let id;
+  if(location.state!==null)
+  id= location.state.id;
+  const isStudent=(id===1);
+  useEffect(()=>{
+    console.log("from login page:",id);
+  })
     return (
         <VStack
             bg='rgb(36, 37, 37)'
@@ -31,7 +41,7 @@ export default function Login() {
             <HStack bg={'blackAlpha.600'} padding={20} pt='10' borderRadius={20} marginBottom={40}
             shadow='0 0 7px 5px pink'
             >
-            <LoginForm />
+            <LoginForm id={id}/>
          
             </HStack>
             </VStack>
