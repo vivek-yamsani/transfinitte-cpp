@@ -23,6 +23,7 @@ export default function SignupForm({ onClose }) {
     const toast = useToast();
     const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
+    const [cg,setcg]=useState(0);
     const [rollno, setrollno] = useState('');
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('');
@@ -104,7 +105,12 @@ export default function SignupForm({ onClose }) {
                     setpassword(event.target.value)
                 }} value={password} />
             </FormControl>
-
+            <FormControl paddingY={2}>
+                <FormLabel color={'white'}>CGPA</FormLabel>
+                <Input placeholder='Enter your cgpa' type={'number'} color='blue.200' onChange={(event) => {
+                    setcg(event.target.value)
+                }} value={cg} />
+            </FormControl>
             <HStack
                 pt={10}
                 align='center'
@@ -114,7 +120,7 @@ export default function SignupForm({ onClose }) {
                 <Button colorScheme='blue' mr={3} isLoading={isLoading}
                     onClick={async () => {
                         setLoading(true)
-                        const res = await Signup({ name, rollno, password, email });
+                        const res = await Signup({ name, rollno, password, email,cgpa:cg });
                         setstatus(res);
                     }}
                 >

@@ -114,7 +114,7 @@ router.post('/create', async (req, res) => {
             }
         });
 
-        res.json({
+        res.status(200).json({
             message: "Successfully Announced..!"
         })
     } catch (err) {

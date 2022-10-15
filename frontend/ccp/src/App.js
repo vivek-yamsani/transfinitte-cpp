@@ -19,6 +19,7 @@ import {CicRep}  from './screens/Cicrep';
 import { Student } from './screens/Student';
 import { Admin } from './screens/Admin';
 import Login from './screens/login';
+import AddCompany from './components/forms/addAnnouncements';
 
 function App() {
   const location = useLocation();
@@ -51,6 +52,7 @@ function App() {
             <Route path='/student' element={<Student />} />
             <Route path='/admin' element={<Admin />} />
             <Route path='/cicrep' element={<CicRep />} /> 
+            <Route path='/addform' element={<AddCompany/>}/>
           </Routes>
           </HStack>
         </div>

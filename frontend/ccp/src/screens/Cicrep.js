@@ -23,10 +23,10 @@ export function CicRep() {
                 </TabList>
                 <TabPanels >
                     <TabPanel>
-                        < Anouncements role={'REPRESENTATIVE'}/>
+                        < Anouncements role={'REPRESENTATIVE'} name={location.state.name} id={location.state.id}/>
                     </TabPanel>
                     <TabPanel>
-                        <Companies role={'REPRESENTATIVE'}/>
+                        <Companies role={'REPRESENTATIVE'} name={location.state.name} id={location.state.id}/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>
