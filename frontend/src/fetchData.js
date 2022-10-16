@@ -44,7 +44,17 @@ export const AddAnnouncement=async({title,description,departments})=>{
 
     return { status: res.status, "data": jsonRes }
 }
-
+export const Addrep=async ({id})=>{
+    const res=await Fetch(`${API_URL}/admin/add_rep`,
+    JSON.stringify({
+        rep_id:id,
+    }),
+    'POST',
+    )
+    const jsonRes=await res.json();
+    console.log(jsonRes);
+    return res.status;
+}
 export const GetAllCompanies = async ({ id,role }) => {
     return [{ title: 'Microsoft India', role: 'Software Engineering', sal: 200000, createdAt: '02/12/22' }
     ,{ title: 'Microsoft India', role: 'Software Engineering', sal: 200000, createdAt: '02/12/22' },

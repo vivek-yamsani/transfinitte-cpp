@@ -60,6 +60,7 @@ export default function Welcome() {
                                 }
                             }
                             )
+                            
                         }
                         >Student</Button>
                     <Button colorScheme={'cyan'} p={12} _hover={{

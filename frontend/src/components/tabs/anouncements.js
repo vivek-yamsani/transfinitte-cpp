@@ -7,22 +7,41 @@ import {
     HStack,
     ModalContent,
     ModalHeader,
+FormControl,
+FormLabel,
+Input,
     useDisclosure,
     ModalFooter,
     ModalBody,
     ModalCloseButton,
 } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { GetAnnouncements } from "../../fetchData";
 import { Announcecard } from "../cards/announcementCard";
+
 import { useNavigate } from "react-router-dom";
+import SignupForm from "../forms/signupform";
+import { Addrep } from "../../fetchData";
 import AddCompany from "../forms/addAnnouncements";
-export function Anouncements({ id, role,name }) {
-    const navigate=useNavigate();
-    const { isOpen, onOpen, onClose } = useDisclosure()
+export function Anouncements({ id, role, name }) {
+    const navigate = useNavigate();
+    const toast = useToast();
+    
     const [announcements, setannouncements] = useState([])
+    const [isLoading, setLoading] = useState(false);
+
+    const [rollno, setrollno] = useState('');
+    const [isOpen1,setisOpen]=useState(false);
+    const mclose1=()=>{
+        setisOpen(!isOpen1);
+    }
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const mclose = () => {
+        onClose();
+    }
     const announcementCard = announcements.map((item) => {
-        return <Announcecard id={item.id} title={item.title} desc={item.description} LastEdited={item.LastEdited} author={item.author} name={name}/>
+        return <Announcecard id={item.id} title={item.title} desc={item.description} LastEdited={item.LastEdited} author={item.author} name={name} />
     })
     useEffect(async () => {
         console.log('Announcements', role);
@@ -38,30 +57,116 @@ export function Anouncements({ id, role,name }) {
                 }
             </Wrap >
             {
-            (role==='REPRESENTATIVE')&&
-            <Button
-                pos={'absolute'}
-                colorScheme={'teal'}
-                left={'80%'}
-                bottom={'75%'}
-                onClick={()=>{
-                    navigate(
-                        '/app/addform',
-                        {
-                            state: {
-                                id,
-                                name,
-                                purpose:'announce',
+                (role !== 'STUDENT') &&
+                <Button
+                    pos={'absolute'}
+                    colorScheme={'teal'}
+                    left={'80%'}
+                    bottom={'75%'}
+                    onClick={() => {
+                        navigate(
+                            '../addform',
+                            {
+                                state: {
+                                    id,
+                                    name,
+                                    purpose: 'announce',
 
+                                }
                             }
-                        }
-                        )  
-                }}
-            >
-                <AddIcon />
-                Add
+                        )
+                        navigate(0);
+                    }}
+                >
+                    <AddIcon />
+                    Add
                 </Button>
-}
+            }
+            {
+                role === 'ADMIN' &&
+                <div>
+
+                    <Button
+                        pos={'absolute'}
+                        colorScheme={'teal'}
+                        left={'80%'}
+                        bottom={'65%'}
+                        onClick={onOpen}
+                    >Add Representaive
+                    </Button>
+                    <Button
+                        pos={'absolute'}
+                        colorScheme={'teal'}
+                        left={'80%'}
+                        bottom={'55%'}
+                        onClick={()=>setisOpen(true)}
+                    >Add ADMIN
+                    </Button>
+                </div>
+            }
+
+<Modal
+                    isOpen={isOpen1}
+                    onClose={mclose1}
+                >
+                    <ModalOverlay />
+                    <ModalContent bg={'gray.800'} color={'white'}>
+                        <ModalHeader alignSelf={'center'} fontSize={30}>Signup</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody pb={6} >
+                            <SignupForm onClose={mclose1}/>
+                        </ModalBody>
+                    </ModalContent>
+                </Modal>
+
+
+
+
+            <Modal
+                isOpen={isOpen}
+                onClose={mclose}
+            >
+                <ModalOverlay />
+                <ModalContent bg={'gray.800'} color={'white'}>
+                    <ModalHeader alignSelf={'center'} fontSize={30}>Add Rep</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6} >
+
+                        <FormControl paddingY={2}>
+                            <FormLabel color={'white'}>Roll no</FormLabel>
+                            <Input placeholder={'Enter your rollno id'} onChange={(event) => {
+                                setrollno(event.target.value)
+                            }} value={rollno} color='blue.200' />
+                        </FormControl>
+                        <Button colorScheme='blue' mr={3} isLoading={isLoading} alignSelf='center'
+                    onClick={async () => {
+                        setLoading(true)
+                        console.log("rollno",rollno);
+                        const res = await Addrep({ id:rollno });
+
+                        if(res===200){
+                            toast(
+                                {
+                                    status: 'success',
+                                    variant: 'left-accent',
+                                    position: 'bottom-right',
+                                    title: `Added Representative`,
+                                    isClosable: true,
+                                }
+                            )
+                            setLoading(false);
+                            mclose();
+                        }
+                    }}
+                >
+                    Add
+                </Button>
+                    </ModalBody>
+                    <ModalFooter>
+                    
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
         </HStack>
     )
 }
