@@ -23,7 +23,7 @@ function App() {
     console.log("In App Component", location.state);
     if (location.state !== null) {
       setname(location.state.name)
-    } else navigate('/');
+    }
   }, [])
 
   return (

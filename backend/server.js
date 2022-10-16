@@ -16,7 +16,6 @@ const { companyRouter } = require("./src/routers/companies");
 const { departmentRouter } = require("./src/routers/departments");
 const { adminRouter } = require("./src/routers/admin");
 
-
 app.use("/auth", authRouter);
 app.use("/announcements", verifyToken, announcementRouter);
 app.use("/companies", verifyToken, companyRouter);

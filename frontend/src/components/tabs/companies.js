@@ -65,7 +65,8 @@ export function Companies({ id, role,name }) {
 
                             }
                         }
-                        )  
+                        )
+                        navigate(0);  
                 }}
             >
                 <AddIcon />

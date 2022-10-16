@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom'
 export function CicRep() {
     const location = useLocation();
     const studentid = location.state.id;
+    const role=location.state.role;
     return (
         <Flex
             w={'100%'}
@@ -23,10 +24,10 @@ export function CicRep() {
                 </TabList>
                 <TabPanels >
                     <TabPanel>
-                        < Anouncements role={'REPRESENTATIVE'} name={location.state.name} id={location.state.id}/>
+                        < Anouncements role={role} name={location.state.name} id={location.state.id}/>
                     </TabPanel>
                     <TabPanel>
-                        <Companies role={'REPRESENTATIVE'} name={location.state.name} id={location.state.id}/>
+                        <Companies role={role} name={location.state.name} id={location.state.id}/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

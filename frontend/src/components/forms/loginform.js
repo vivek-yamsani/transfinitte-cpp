@@ -62,9 +62,12 @@ export default function LoginForm({id}) {
                     state: {
                         id:data.user.id,
                         name: data.user.name,
+                        role,
                     }
                 }
-            )}
+            )
+            navigate(0);
+        }
             else
             if(isCicrep&&role==='REPRESENTATIVE'){
                 showToast();
@@ -74,22 +77,27 @@ export default function LoginForm({id}) {
                     state: {
                         id:data.user.id,
                         name: data.user.name,
+                        role,
                     }
                 }
             )
+            navigate(0);
             }
             else
             if(isAdmin&&role==='ADMIN'){
                 showToast();
             navigate(
-                '../app/admin',
+                '../app/cicrep',
                 {
                     state: {
                         id:data.user.id,
                         name: data.user.name,
+                        role:'ADMIN',
                     }
                 }
-            )}
+            )
+            navigate(0);
+        }
             else{
                 toast(
                     {

@@ -28,7 +28,8 @@ export function Announcecard({ title,desc, id,name }) {
                                 name,
                             }
                         }
-                        ) 
+                        )
+                        navigate(0); 
                 }}
                 
                 _hover={{ cursor: 'pointer' }}

@@ -34,7 +34,7 @@ export function Companiescard({ isApplied, sal, createdAt, title, name, role, id
                 width={600}
                 spacing={0}
                 borderRadius={10}
-                onClick={() =>
+                onClick={() =>{
                     navigate(
                         '/app/details',
                         {
@@ -44,6 +44,7 @@ export function Companiescard({ isApplied, sal, createdAt, title, name, role, id
                             }
                         }
                     )
+                    navigate(0);}
                 }
                 _hover={{ cursor: 'pointer' }}
                 align='stretch'
