@@ -27,7 +27,7 @@ export function Student() {
                         < Anouncements id={studentid} role='STUDENT'/>
                     </TabPanel>
                     <TabPanel>
-                        <Companies id={studentid} role='STUDENT'/>
+                        <Companies   id={studentid} role='STUDENT'/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

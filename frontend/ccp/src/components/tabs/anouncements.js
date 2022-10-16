@@ -22,7 +22,7 @@ export function Anouncements({ id, role,name }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [announcements, setannouncements] = useState([])
     const announcementCard = announcements.map((item) => {
-        return <Announcecard title={item.title} desc={item.description} LastEdited={item.LastEdited} author={item.author} />
+        return <Announcecard id={item.id} title={item.title} desc={item.description} LastEdited={item.LastEdited} author={item.author} name={name}/>
     })
     useEffect(async () => {
         console.log('Announcements', role);
@@ -51,6 +51,7 @@ export function Anouncements({ id, role,name }) {
                             state: {
                                 id,
                                 name,
+                                purpose:'announce',
 
                             }
                         }

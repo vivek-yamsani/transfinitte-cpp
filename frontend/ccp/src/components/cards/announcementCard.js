@@ -5,7 +5,7 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 
 
 import { Heading, Text, WrapItem, ArrowRightIcon, HStack, Button, VStack } from '@chakra-ui/react'
-export function Announcecard({ title,desc, id, selectedoption,set_selected,votes }) {
+export function Announcecard({ title,desc, id,name }) {
     const navigate = useNavigate();
     return (
         <HStack spacing={0}
@@ -19,7 +19,17 @@ export function Announcecard({ title,desc, id, selectedoption,set_selected,votes
                 
                 width={600}
                 spacing={0}
-                onClick={() => {set_selected(id)}}
+                onClick={() => {
+                    navigate(
+                        '/app/details',
+                        {
+                            state: {
+                                id,
+                                name,
+                            }
+                        }
+                        ) 
+                }}
                 
                 _hover={{ cursor: 'pointer' }}
                 align='center'

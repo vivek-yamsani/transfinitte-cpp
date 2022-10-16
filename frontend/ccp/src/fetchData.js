@@ -15,6 +15,11 @@ export const Logins = async ({ rollno, password }) => {//actual way to fetch dat
     // });
     // const jsonRes = await res.json();
 }
+export const getStatus=async ({id})=>{
+    const res = await Fetch(`${API_URL}/companies/get/:${id}`)
+    const jsonRes = await res.json();
+    return jsonRes;
+}
 export const GetAnnouncements = async ({ id, Role }) => {
     const res = await Fetch(`${API_URL}/announcements/all`)
     const jsonRes = await res.json();
@@ -40,21 +45,31 @@ export const AddAnnouncement=async({title,description,departments})=>{
     return { status: res.status, "data": jsonRes }
 }
 
-export const GetAllCompanies = async ({ id }) => {
+export const GetAllCompanies = async ({ id,role }) => {
     return [{ title: 'Microsoft India', role: 'Software Engineering', sal: 200000, createdAt: '02/12/22' }
     ,{ title: 'Microsoft India', role: 'Software Engineering', sal: 200000, createdAt: '02/12/22' },
     { title: 'Microsoft India', role: 'Software Engineering', sal: 200000, createdAt: '02/12/22', },
     { title: 'Microsoft India', role: 'Software Engineering', sal: 200000, createdAt: '02/12/22', }]
-
 }
-export const GetCompanies = async ({ id }) => {
-    console.log(('Companies fetching..'));
-    return [{ title: 'Microsoft India', role: 'Software Engineering', sal: 200000, createdAt: '02/12/22', status: 'applied' }
-        , { title: 'Microsoft India', role: 'Software Engineering', sal: 200000, createdAt: '02/12/22', status: 'rejected' },
-    { title: 'Microsoft India', role: 'Software Engineering', sal: 200000, createdAt: '02/12/22', status: 'shortlisted' },
-    { title: 'Microsoft India', role: 'Software Engineering', sal: 200000, createdAt: '02/12/22', status: 'applied' }
+//     else res=await AddCompany({name:companyName,cgpa_criteria:cgpaCriteria,description:discription,eligible_departments:eligibleDepartments, role})
 
-    ]
+export const addCompany=async ({ name, cgpa_criteria, eligible_departments, description, role })=>{
+    const res=await Fetch(`${API_URL}/companies/create`,
+    JSON.stringify({
+        name, cgpa_criteria, eligible_departments, description, role
+    }),
+    'POST',
+    )
+    const jsonRes=await res.json();
+    console.log("in add company response is",jsonRes);
+    return {status:res.status,"data":jsonRes}
+}
+
+export const GetCompanies = async ({ id ,role}) => {
+    const res = await Fetch(`${API_URL}/companies/all`)
+    const jsonRes = await res.json();
+    console.log("from get companies:",jsonRes);
+    return jsonRes;
 }
 export const Signup = async ({ name, email, password, rollno ,cgpa}) => {
 
@@ -74,6 +89,9 @@ export const Signup = async ({ name, email, password, rollno ,cgpa}) => {
     })
     return (res.status);
 }
+
+
+
 export const Login = async ({ rollno, password }) => {
     const res = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',

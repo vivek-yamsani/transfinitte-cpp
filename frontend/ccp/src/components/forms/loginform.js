@@ -57,7 +57,7 @@ export default function LoginForm({id}) {
                 if(isStudent&&role==='STUDENT'){
                 showToast();
             navigate(
-                '/app/student',
+                '../app/student',
                 {
                     state: {
                         id:data.user.id,
@@ -69,7 +69,7 @@ export default function LoginForm({id}) {
             if(isCicrep&&role==='REPRESENTATIVE'){
                 showToast();
             navigate(
-                '/app/cicrep',
+                '../app/cicrep',
                 {
                     state: {
                         id:data.user.id,
@@ -82,7 +82,7 @@ export default function LoginForm({id}) {
             if(isAdmin&&role==='ADMIN'){
                 showToast();
             navigate(
-                '/app/admin',
+                '../app/admin',
                 {
                     state: {
                         id:data.user.id,

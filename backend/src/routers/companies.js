@@ -257,7 +257,7 @@ router.post("/create", async (req, res) => {
                 role
             }
         });
-        res.json({
+        res.status(200).json({
             message: "Succesfully Added the company"
         });
     } catch (err) {
