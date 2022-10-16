@@ -1,9 +1,24 @@
 const express = require("express")
-const cors = require("cors")
-require('dotenv').config({ path: './env' })
+const cors = require("cors");
+require('dotenv').config({ path: './.env' })
 const app = express();
 
-const port = process.env.PORT ? process.env.PORT : 3000;
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
+const port = process.env.PORT || 8000;
+
+const { authRouter } = require("./src/routers/auth");
+const { announcementRouter } = require("./src/routers/announcements");
+const { verifyToken } = require("./src/helpers/jwt");
+const { companyRouter } = require("./src/routers/companies");
+const { departmentRouter } = require("./src/routers/departments");
+
+app.use("/auth", authRouter);
+app.use("/announcements", verifyToken, announcementRouter);
+app.use("/companies", verifyToken, companyRouter);
+app.use("/departments", verifyToken, departmentRouter);
 
 app.all('*', async (req, res) => {
     res.status(404).json({
