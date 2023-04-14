@@ -15,6 +15,7 @@ export const Logins = async ({ rollno, password }) => {//actual way to fetch dat
     // });
     // const jsonRes = await res.json();
 }
+
 export const getStatus=async ({id})=>{
     const res = await Fetch(`${API_URL}/companies/get/:${id}`)
     const jsonRes = await res.json();

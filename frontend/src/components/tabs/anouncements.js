@@ -43,11 +43,8 @@ export function Anouncements({ id, role, name }) {
     const announcementCard = announcements.map((item) => {
         return <Announcecard id={item.id} title={item.title} desc={item.description} LastEdited={item.LastEdited} author={item.author} name={name} />
     })
-    useEffect(async () => {
-        console.log('Announcements', role);
-        const res = await GetAnnouncements({ id, Role: role });
-        console.log("Response fomr server", res);
-        setannouncements(res);
+    useEffect(() => {
+         GetAnnouncements({ id, Role: role }).then((data)=>{setannouncements(data)});
     }, [])
     return (
         <HStack>

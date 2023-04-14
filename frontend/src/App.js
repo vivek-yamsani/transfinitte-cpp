@@ -20,7 +20,7 @@ function App() {
   const navigate = useNavigate();
   const [name, setname] = useState('');
   useEffect(() => {
-    console.log("In App Component", location.state);
+    console.log("App Rendered Again");
     if (location.state !== null) {
       setname(location.state.name)
     }

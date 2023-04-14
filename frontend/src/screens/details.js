@@ -6,11 +6,9 @@ import { Fetch } from "../fetch_function";
 export default function Details({ id, name }) {
   const [details, setDetails] = useState({});
   const [userRole, setRole] = useState("");
-  useEffect(async () => {
-    const temp1 = await Fetch(`${API_URL}/announcements/${id}`, null, "GET");
-    const temp2 = await Fetch(`${API_URL}/roleFind`);
-    setDetails(temp1);
-    setRole(temp2);
+  useEffect(() => {
+    const temp1 = Fetch(`${API_URL}/announcements/${id}`, null, "GET").then((data)=>setDetails(data));
+    const temp2 = Fetch(`${API_URL}/roleFind`).then((data)=>setDetails(data));
   }, []);
   return (
     <>

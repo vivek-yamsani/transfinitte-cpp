@@ -33,12 +33,8 @@ export function Companies({ id, role,name }) {
         companyCard=[...companyCard,<Companiescard isApplied={0} id={item.id} title={item.name} sal={200000} LastEdited={item.createdAt} name={name} role={item.role} personrole={role}/>]
 
     }
-    useEffect(async () => {
-        console.log('Announcements', role);
-        const res = await GetCompanies({ id, Role: role });
-
-        console.log("Response from server", res);
-        setcompanies(res);
+    useEffect(() => {
+        const res = GetCompanies({ id, Role: role }).then((data)=>{setcompanies(data)});
     }, [])
     return (
         <HStack>

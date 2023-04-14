@@ -101,7 +101,7 @@ export default function Welcome() {
   boxSize='md'
   
   src={require('../images/capstone.jpg')}
-  alt='Dan Abramov'
+  alt='cap stone'
 />
 <Heading color={'pink'}>Training and Placement Cell<br/><Center>Nit Trichy
     </Center></Heading>

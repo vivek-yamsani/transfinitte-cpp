@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-// import CircleIcon from './components/circleIcon';
 import { background, Button, ChakraProvider, color, Text, Stack, HStack, VStack, Box, Center, Heading } from '@chakra-ui/react'
 import { PhoneIcon, AddIcon, WarningIcon, CloseIcon, MinusIcon, CheckIcon,RepeatClockIcon,ArrowBackIcon,ArrowForwardIcon } from '@chakra-ui/icons'
 import App from './App';

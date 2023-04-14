@@ -22,9 +22,7 @@ export default function Login() {
   if(location.state!==null)
   id= location.state.id;
   const isStudent=(id===1);
-  useEffect(()=>{
-    console.log("from login page:",id);
-  })
+
     return (
         <VStack
             bg='rgb(36, 37, 37)'

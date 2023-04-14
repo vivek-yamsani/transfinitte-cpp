@@ -5,9 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js"
+    "start": "nodemon server.js"
   },
-  "author": "srikanth_anna_pyans",
+  "author": "srikanth_anna_pyanns",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^4.4.0",
