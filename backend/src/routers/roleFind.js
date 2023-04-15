@@ -1,9 +1,10 @@
 const router = require("express").Router();
 
-router.post("/", async(req,res) => {
+router.get("/", async(req,res) => {
     try {
         res.json({
-            role: req.Role
+            role: req.Role,
+            id:req.id
         });
     } catch (err) {
         console.log(err);
@@ -12,3 +13,5 @@ router.post("/", async(req,res) => {
         })
     }
 })
+
+module.exports = { roleRouter: router }

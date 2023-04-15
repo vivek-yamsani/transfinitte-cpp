@@ -1,16 +1,9 @@
 import { VStack, Flex, Center, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import {
-    Wrap, Heading
-    , Modal,
-    ModalOverlay,
+    Wrap, Heading,
     HStack,
-    ModalContent,
-    ModalHeader,
     useDisclosure,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
 } from "@chakra-ui/react";
 import { Companiescard } from "../cards/comapniesCard";
 import { AddIcon } from "@chakra-ui/icons";
@@ -35,6 +28,7 @@ export function Companies({ id, role,name }) {
     }
     useEffect(() => {
         const res = GetCompanies({ id, Role: role }).then((data)=>{setcompanies(data)});
+        console.log("Compnay rendering....");
     }, [])
     return (
         <HStack>

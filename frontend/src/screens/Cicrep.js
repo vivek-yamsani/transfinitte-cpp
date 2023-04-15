@@ -6,10 +6,11 @@ import { Companies } from '../components/tabs/companies'
 import Welcome from './Welcome'
 import { Anouncements } from '../components/tabs/anouncements'
 import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 export function CicRep() {
     const location = useLocation();
     const studentid = location.state.id;
-    const role=location.state.role;
+    if(studentid==null)return (<>Hi</>)
     return (
         <Flex
             w={'100%'}

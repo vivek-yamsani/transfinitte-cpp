@@ -16,14 +16,15 @@ import {
     Input,
     Show,
 } from '@chakra-ui/react'
-// import { Add_Option, Add_Poll, Add_Team, Login } from '../../fetchData';
 import { Login } from '../../fetchData';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { createSearchParams, useNavigate } from "react-router-dom";
 import SignupForm from './signupform';
+import { userContext } from '../../config/userContextProvider';
 export default function LoginForm({id}) {
     const toast = useToast();
     const navigate = useNavigate();
+    const {user,changed}=useContext(userContext)
     const [isLoading, setLoading] = useState(false);
     const [rollno, setrollno] = useState('');
     const [password, setpassword] = useState('');
@@ -42,6 +43,7 @@ export default function LoginForm({id}) {
             }
         )
     }
+    
     const { isOpen, onOpen, onClose } = useDisclosure();
     const mclose = () => {
         onClose();
@@ -57,17 +59,15 @@ export default function LoginForm({id}) {
                 if(isStudent&&role==='STUDENT'){
                 showToast();
             navigate(
-                '/login',
+                '/app/student',
                 {
                     state: {
                         id:data.user.id,
                         name: data.user.name,
-                        role,
-                    }
+                    },replace:true
                 }
-            )
-            navigate(0);
-        }
+              
+            )}
             else
             if(isCicrep&&role==='REPRESENTATIVE'){
                 showToast();
@@ -77,8 +77,7 @@ export default function LoginForm({id}) {
                     state: {
                         id:data.user.id,
                         name: data.user.name,
-                        role,
-                    }
+                    },replace:true
                 }
             )
             navigate(0);
@@ -92,8 +91,7 @@ export default function LoginForm({id}) {
                     state: {
                         id:data.user.id,
                         name: data.user.name,
-                        role:'ADMIN',
-                    }
+                    },replace:true
                 }
             )
             navigate(0);
@@ -135,6 +133,9 @@ export default function LoginForm({id}) {
         }
             setLoading(false);
     }, [details]);
+    useEffect(()=>{
+        console.log("Rendering login...");
+    })
     return (
         <div>
             <Heading color={'pink.400'} textAlign='center' pb={10} pt={0}>Login</Heading>
@@ -158,9 +159,9 @@ export default function LoginForm({id}) {
                 <Button colorScheme='blue' mr={3} isLoading={isLoading}
                     onClick={async () => {
                         setLoading(true)
-                        console.log("Entries:",rollno,password);
                         const res=await Login({ rollno, password });
-                        console.log("Response.....:",res);
+                        changed(false)
+                        changed(true)
                         setdetails(res);   
                     }}
                 >

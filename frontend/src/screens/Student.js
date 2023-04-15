@@ -8,8 +8,7 @@ import { Anouncements } from '../components/tabs/anouncements'
 import { useLocation } from 'react-router-dom'
 export function Student() {
     const location = useLocation();
-    const studentid = location.state.id;
-    console.log("state:",location.state);
+    const studentid=1;
     return (
         <Flex
             w={'100%'}

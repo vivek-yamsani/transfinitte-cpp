@@ -35,10 +35,12 @@ const verifyToken = async (req, res, next) => {
                     id: req.id
                 },
                 select: {
-                    role: true
+                    role: true,
+                    name:true,
                 }
             });
             req.Role = user.role;
+            req.name=user.name;
             // console.log(user.role, typeof (user.role), req.Role);
             next();
         });

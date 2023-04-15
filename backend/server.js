@@ -12,8 +12,9 @@ const { verifyToken } = require("./src/helpers/jwt");
 const { companyRouter } = require("./src/routers/companies");
 const { departmentRouter } = require("./src/routers/departments");
 const { adminRouter } = require("./src/routers/admin");
-
+const { roleRouter}=require('./src/routers/roleFind');
 app.use("/auth", authRouter);
+app.use("/details",verifyToken,roleRouter);
 app.use("/announcements", verifyToken, announcementRouter);
 app.use("/companies", verifyToken, companyRouter);
 app.use("/departments", verifyToken, departmentRouter);

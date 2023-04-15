@@ -21,8 +21,10 @@ export default function Login() {
    let id;
   if(location.state!==null)
   id= location.state.id;
+  else {
+    navigate('/')
+  }
   const isStudent=(id===1);
-
     return (
         <VStack
             bg='rgb(36, 37, 37)'

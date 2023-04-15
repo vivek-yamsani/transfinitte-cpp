@@ -45,6 +45,7 @@ export function Anouncements({ id, role, name }) {
     })
     useEffect(() => {
          GetAnnouncements({ id, Role: role }).then((data)=>{setannouncements(data)});
+         console.log("Announce rendering...");
     }, [])
     return (
         <HStack>
@@ -54,20 +55,20 @@ export function Anouncements({ id, role, name }) {
                 }
             </Wrap >
             {
-                (role !== 'STUDENT') &&
-                <Button
-                    pos={'absolute'}
-                    colorScheme={'teal'}
-                    left={'80%'}
-                    bottom={'75%'}
-                    onClick={() => {
-                        navigate(
-                            '../addform',
-                            {
-                                state: {
-                                    id,
-                                    name,
-                                    purpose: 'announce',
+            (role==='REPRESENTATIVE')&&
+            <Button
+                pos={'absolute'}
+                colorScheme={'teal'}
+                left={'80%'}
+                bottom={'75%'}
+                onClick={()=>{
+                    navigate(
+                        '/app/student',
+                        {
+                            state: {
+                                id,
+                                name,
+                                purpose:'announce',
 
                                 }
                             }

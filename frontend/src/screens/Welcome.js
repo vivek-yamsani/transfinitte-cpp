@@ -1,29 +1,27 @@
 import {
-    Heading, Spacer, StackDivider, VStack, Divider, HStack, Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    useDisclosure,
-    FormControl,
+    Heading, VStack, HStack,
     Box,
-    Text,
-    Img,
     Image,
-    FormLabel,
     Center,
-    Input,
     Button,
 } from "@chakra-ui/react"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useNavigate,useLocation  } from "react-router-dom";
+import { userContext } from "../config/userContextProvider";
 export default function Welcome() {
     const navigate=useNavigate();
-    const location = useLocation();
-    const [loading,setLoading]=useState(false);
+    const {user}=useContext(userContext);
+    useEffect(()=>{
+        if(user.id){
+            const role=user.role;
+            const direct=(
+                (role=='STUDENT')?'/app/student':('ADMIN'?'/app/admin':'/app/cicrep')
+                )
+                navigate(direct,{replace:true});
+        console.log("Rendering welcome...",user,role);
+        }
+    })
     return (
         <VStack
             bg='rgb(36, 37, 37)'
