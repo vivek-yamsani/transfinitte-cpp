@@ -65,6 +65,27 @@ router.get("/all", async (req, res) => {
     }
 });
 
+router.get("/getappliedstudents/:id", async (req, res) => {
+    try {
+        const company_id = parseInt(req.params.id);
+        const applied_students = await prisma.company_Applicant.findMany({
+            where: {
+                company_id,
+                application_status: 'INPROCESS'
+            },
+            select: {
+                student: true
+            }
+        });
+        res.json(applied_students);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "Something went wrong..!"
+        })
+    }
+})
+
 router.post("/apply/:id", async (req, res) => {
     try {
         const companyId = parseInt(req.params.id);
@@ -96,6 +117,28 @@ router.post("/apply/:id", async (req, res) => {
         })
     }
 })
+
+router.get('/getdetails/:id', async (req, res) => {
+    try {
+        const companyId = parseInt(req.params.id);
+        const cdt = await prisma.company.findUnique({
+            where: {
+                id: companyId
+            },
+            include: {
+                eligible_departments: true
+            }
+
+        })
+        res.json(cdt);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "Something went wrong..!"
+        })
+    }
+})
+
 
 router.get("/get/:id", async (req, res) => {
     try {
@@ -139,10 +182,11 @@ router.get("/get/:id", async (req, res) => {
 })
 
 router.post("/add_shortlist/:id", async (req, res) => {
+    console.log("Req body", req.body);
     try {
         const companyId = parseInt(req.params.id);
         const { shortlist } = req.body;
-        if (isNaN(companyId) || !shortlist) {
+        if (isNaN(companyId)) {
             return res.status(400).json({
                 message: "Invalid Request.."
             })
@@ -174,6 +218,9 @@ router.post("/add_shortlist/:id", async (req, res) => {
                 application_status: "REJECTED"
             }
         });
+        res.json({
+            message: 'Added Successfully'
+        })
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -307,4 +354,49 @@ router.delete("/delete/:id", async (req, res) => {
     }
 })
 
+router.get("/messeges/get/:id", async (req, res) => {
+    try {
+        const company_id = parseInt(req.params.id);
+        const messeges = await prisma.messege.findMany({
+            where: {
+                company_id
+            },
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                    }
+                }
+            }
+        })
+        res.json(messeges)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message:'Something went wrong'
+        })
+    }
+})
+
+router.post('/messeges/add/:id',async (req,res)=>{
+    try{
+        const {company_id,user_id,messege}=req.body;
+        await prisma.messege.create({
+            data:{
+                company_id,
+                user_id,
+                messege
+            }
+        })
+        res.json({
+            messege:'Messege Posted Succesfully..'
+        })
+    }catch(err){
+        console.log(err);
+        res.status(500).json({
+            message:'Something went wrong'
+        })
+    }
+})
 module.exports = { companyRouter: router };

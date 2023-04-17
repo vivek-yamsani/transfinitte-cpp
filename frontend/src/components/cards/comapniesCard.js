@@ -1,6 +1,6 @@
 import { PhoneIcon, AddIcon, WarningIcon, CloseIcon, MinusIcon, CheckIcon } from '@chakra-ui/icons'
 import { FaBeer } from 'react-icons/fa';
-import { Flex, Wrap } from '@chakra-ui/react';
+import { Flex, Wrap, Box } from '@chakra-ui/react';
 import { BsChevronRight } from "react-icons/bs";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
@@ -20,13 +20,14 @@ export function Companiescard({ isApplied, sal, createdAt, title, name, role, id
     //         setStatus(res);
     //     }
     // },[])
+    console.log("status:",application_status);
     return (
         <HStack spacing={0}
             bg={'whiteAlpha.900'}
             color={'black'}
             p={5}
             borderTopWidth={20}
-            borderColor={personrole !== 'STUDENT' ? 'inherit' : (status === 'not yet applied' ? 'blue' : (status === 'applied' ? ('teal') : (status === 'shortlisted' ? 'yellow.400' : status === 'rejected' ? 'red' : 'inherit')))}
+            borderColor={personrole !== 'STUDENT' ? 'inherit' : (status === 'not yet applied' ? 'blue' : (status === 'INPROCESS' ? ('teal') : (status === 'SHORTLISTED' ? 'yellow.400' : status === 'REJECTED' ? 'red' : 'inherit')))}
             boxShadow={'0 0 20px 15px'}
             borderRadius={10}
         >
@@ -34,19 +35,7 @@ export function Companiescard({ isApplied, sal, createdAt, title, name, role, id
                 width={600}
                 spacing={0}
                 borderRadius={10}
-                onClick={() =>{
-                    navigate(
-                        '/app/details',
-                        {
-                            state: {
-                                id,
-                                name,
-                            }
-                        }
-                    )
-                    navigate(0);}
-                }
-                _hover={{ cursor: 'pointer' }}
+
                 align='stretch'
             >
                 <HStack>
@@ -62,7 +51,24 @@ export function Companiescard({ isApplied, sal, createdAt, title, name, role, id
                     <Text><b>Status:</b>{status}</Text>
                 }
             </VStack>
-            <BsChevronRight style={{ width: '50px', height: '35px' }} />
+            <Box _hover={{
+                color: "teal.500",
+                cursor: "pointer"
+            }}>
+                <BsChevronRight style={{ width: '50px', height: '35px' }} onClick={() => {
+                    navigate(
+                        '/app/company_details',
+                        {
+                            state: {
+                                id,
+                            }
+                        }
+                    )
+                }
+                }
+
+                />
+            </Box>
         </HStack>
     )
 }

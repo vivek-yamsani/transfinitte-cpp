@@ -13,10 +13,11 @@ export default function Welcome() {
     const navigate=useNavigate();
     const {user}=useContext(userContext);
     useEffect(()=>{
+        console.log("rendering welcome...");
         if(user.id){
             const role=user.role;
             const direct=(
-                (role=='STUDENT')?'/app/student':('ADMIN'?'/app/admin':'/app/cicrep')
+                (role=='STUDENT')?'/app/student':(role=='ADMIN'?'/app/admin':'/app/cicrep')
                 )
                 navigate(direct,{replace:true});
         console.log("Rendering welcome...",user,role);

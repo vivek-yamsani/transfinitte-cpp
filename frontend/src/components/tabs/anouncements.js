@@ -7,9 +7,9 @@ import {
     HStack,
     ModalContent,
     ModalHeader,
-FormControl,
-FormLabel,
-Input,
+    FormControl,
+    FormLabel,
+    Input,
     useDisclosure,
     ModalFooter,
     ModalBody,
@@ -27,13 +27,13 @@ import AddCompany from "../forms/addAnnouncements";
 export function Anouncements({ id, role, name }) {
     const navigate = useNavigate();
     const toast = useToast();
-    
+
     const [announcements, setannouncements] = useState([])
     const [isLoading, setLoading] = useState(false);
 
     const [rollno, setrollno] = useState('');
-    const [isOpen1,setisOpen]=useState(false);
-    const mclose1=()=>{
+    const [isOpen1, setisOpen] = useState(false);
+    const mclose1 = () => {
         setisOpen(!isOpen1);
     }
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -44,8 +44,8 @@ export function Anouncements({ id, role, name }) {
         return <Announcecard id={item.id} title={item.title} desc={item.description} LastEdited={item.LastEdited} author={item.author} name={name} />
     })
     useEffect(() => {
-         GetAnnouncements({ id, Role: role }).then((data)=>{setannouncements(data)});
-         console.log("Announce rendering...");
+        GetAnnouncements({ id, Role: role }).then((data) => { setannouncements(data) });
+        console.log("Announce rendering...");
     }, [])
     return (
         <HStack>
@@ -55,25 +55,24 @@ export function Anouncements({ id, role, name }) {
                 }
             </Wrap >
             {
-            (role==='REPRESENTATIVE')&&
-            <Button
-                pos={'absolute'}
-                colorScheme={'teal'}
-                left={'80%'}
-                bottom={'75%'}
-                onClick={()=>{
-                    navigate(
-                        '/app/student',
-                        {
-                            state: {
-                                id,
-                                name,
-                                purpose:'announce',
+                (role === 'REPRESENTATIVE') &&
+                <Button
+                    pos={'absolute'}
+                    colorScheme={'teal'}
+                    left={'80%'}
+                    bottom={'75%'}
+                    onClick={() => {
+                        navigate(
+                            '/app/addform',
+                            {
+                                state: {
+                                    id,
+                                    name,
+                                    purpose: 'announce',
 
                                 }
                             }
                         )
-                        navigate(0);
                     }}
                 >
                     <AddIcon />
@@ -97,25 +96,25 @@ export function Anouncements({ id, role, name }) {
                         colorScheme={'teal'}
                         left={'80%'}
                         bottom={'55%'}
-                        onClick={()=>setisOpen(true)}
+                        onClick={() => setisOpen(true)}
                     >Add ADMIN
                     </Button>
                 </div>
             }
 
-<Modal
-                    isOpen={isOpen1}
-                    onClose={mclose1}
-                >
-                    <ModalOverlay />
-                    <ModalContent bg={'gray.800'} color={'white'}>
-                        <ModalHeader alignSelf={'center'} fontSize={30}>Signup</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody pb={6} >
-                            <SignupForm onClose={mclose1}/>
-                        </ModalBody>
-                    </ModalContent>
-                </Modal>
+            <Modal
+                isOpen={isOpen1}
+                onClose={mclose1}
+            >
+                <ModalOverlay />
+                <ModalContent bg={'gray.800'} color={'white'}>
+                    <ModalHeader alignSelf={'center'} fontSize={30}>Signup</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6} >
+                        <SignupForm onClose={mclose1} />
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
 
 
 
@@ -137,31 +136,31 @@ export function Anouncements({ id, role, name }) {
                             }} value={rollno} color='blue.200' />
                         </FormControl>
                         <Button colorScheme='blue' mr={3} isLoading={isLoading} alignSelf='center'
-                    onClick={async () => {
-                        setLoading(true)
-                        console.log("rollno",rollno);
-                        const res = await Addrep({ id:rollno });
+                            onClick={async () => {
+                                setLoading(true)
+                                console.log("rollno", rollno);
+                                const res = await Addrep({ id: rollno });
 
-                        if(res===200){
-                            toast(
-                                {
-                                    status: 'success',
-                                    variant: 'left-accent',
-                                    position: 'bottom-right',
-                                    title: `Added Representative`,
-                                    isClosable: true,
+                                if (res === 200) {
+                                    toast(
+                                        {
+                                            status: 'success',
+                                            variant: 'left-accent',
+                                            position: 'bottom-right',
+                                            title: `Added Representative`,
+                                            isClosable: true,
+                                        }
+                                    )
+                                    setLoading(false);
+                                    mclose();
                                 }
-                            )
-                            setLoading(false);
-                            mclose();
-                        }
-                    }}
-                >
-                    Add
-                </Button>
+                            }}
+                        >
+                            Add
+                        </Button>
                     </ModalBody>
                     <ModalFooter>
-                    
+
                     </ModalFooter>
                 </ModalContent>
             </Modal>

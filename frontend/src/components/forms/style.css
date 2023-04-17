@@ -7,11 +7,12 @@ body{
 .form{
     background-color: grey;
     border-radius: 5px;
-    width: 35%;
-    height: 'auto';
+    height: 100%;
+    overflow: scroll;
     margin: 20px auto;
     padding: 20px;
 }
+
 .username{
     display: flex;
     justify-content: space-around;

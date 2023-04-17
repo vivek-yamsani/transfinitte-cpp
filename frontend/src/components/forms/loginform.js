@@ -24,7 +24,7 @@ import { userContext } from '../../config/userContextProvider';
 export default function LoginForm({id}) {
     const toast = useToast();
     const navigate = useNavigate();
-    const {user,changed}=useContext(userContext)
+    const {user,changed,tokenchanged}=useContext(userContext)
     const [isLoading, setLoading] = useState(false);
     const [rollno, setrollno] = useState('');
     const [password, setpassword] = useState('');
@@ -48,91 +48,90 @@ export default function LoginForm({id}) {
     const mclose = () => {
         onClose();
     }
-    useEffect(() => {
-        console.log('from useeffect', details);
-        console.log("loading",isLoading);
-        if (details.length !== 0) {
-            const st=details.status;
-            const data=details.data;
-            if(st==200){
-                const role=data.user.role;
-                if(isStudent&&role==='STUDENT'){
-                showToast();
-            navigate(
-                '/app/student',
-                {
-                    state: {
-                        id:data.user.id,
-                        name: data.user.name,
-                    },replace:true
-                }
+    // useEffect(() => {
+    //     console.log('from useeffect', details);
+    //     console.log("loading",isLoading);
+    //     if (details.data) {
+    //         const st=details.status;
+    //         const data=details.data;
+    //         if(st==200){
+    //             const role=data.user.role;
+    //             if(isStudent&&role==='STUDENT'){
+    //             showToast();
+    //         navigate(
+    //             '/app/student',
+    //             {
+    //                 state: {
+    //                     id:data.user.id,
+    //                     name: data.user.name,
+    //                 },replace:true
+    //             }
               
-            )}
-            else
-            if(isCicrep&&role==='REPRESENTATIVE'){
-                showToast();
-            navigate(
-                '/app/cicrep',
-                {
-                    state: {
-                        id:data.user.id,
-                        name: data.user.name,
-                    },replace:true
-                }
-            )
-            navigate(0);
-            }
-            else
-            if(isAdmin&&role==='ADMIN'){
-                showToast();
-            navigate(
-                '/app/admin',
-                {
-                    state: {
-                        id:data.user.id,
-                        name: data.user.name,
-                    },replace:true
-                }
-            )
-            navigate(0);
-        }
-            else{
-                toast(
-                    {
-                        status: 'error',
-                        variant: 'left-accent',
-                        position: 'bottom-right',
-                        title: `Role Invalid`,
-                        isClosable: true,
-                    }
-                ) 
-            }
-            }
-            else{
-                toast(
-                    {
-                        status: 'error',
-                        variant: 'left-accent',
-                        position: 'bottom-right',
-                        title: `${data.message}`,
-                        isClosable: true,
-                    }
-                )
-            }
-        }else if(isLoading===true){
-            toast(
-                {
-                    status: 'error',
-                    variant: 'left-accent',
-                    position: 'bottom-right',
-                    title: `Please Check your credentials or try signing up`,
-                    isClosable: true,
-                }
-            )
-            setLoading(false);
-        }
-            setLoading(false);
-    }, [details]);
+    //         )}
+    //         else
+    //         if(isCicrep&&role==='REPRESENTATIVE'){
+    //             showToast();
+    //         navigate(
+    //             '/app/cicrep',
+    //             {
+    //                 state: {
+    //                     id:data.user.id,
+    //                     name: data.user.name,
+    //                 },replace:true
+    //             }
+    //         )
+    //         }
+    //         else
+    //         if(isAdmin&&role==='ADMIN'){
+    //             showToast();
+    //         navigate(
+    //             '/app/admin',
+    //             {
+    //                 state: {
+    //                     id:data.user.id,
+    //                     name: data.user.name,
+    //                 },replace:true
+    //             }
+    //         )
+    //     }
+    //         else{
+    //             toast(
+    //                 {
+    //                     status: 'error',
+    //                     variant: 'left-accent',
+    //                     position: 'bottom-right',
+    //                     title: `Role Invalid`,
+    //                     isClosable: true,
+    //                 }
+    //             ) 
+    //         }
+    //         }
+    //         else{
+    //             toast(
+    //                 {
+    //                     status: 'error',
+    //                     variant: 'left-accent',
+    //                     position: 'bottom-right',
+    //                     title: `${data.message}`,
+    //                     isClosable: true,
+    //                 }
+    //             )
+    //         }
+    //     }else if(isLoading===true){
+    //         toast(
+    //             {
+    //                 status: 'error',
+    //                 variant: 'left-accent',
+    //                 position: 'bottom-right',
+    //                 title: `Please Check your credentials or try signing up`,
+    //                 isClosable: true,
+    //             }
+    //         )
+    //         setLoading(false);
+    //     }
+    //         setLoading(false);
+    // }, []);
+
     useEffect(()=>{
         console.log("Rendering login...");
     })
@@ -160,9 +159,9 @@ export default function LoginForm({id}) {
                     onClick={async () => {
                         setLoading(true)
                         const res=await Login({ rollno, password });
-                        changed(false)
-                        changed(true)
-                        setdetails(res);   
+                        changed(!tokenchanged)
+                        navigate('/')
+                        // setdetails(res);   
                     }}
                 >
                     Login

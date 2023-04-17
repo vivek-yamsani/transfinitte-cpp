@@ -5,12 +5,12 @@ import Login from './login'
 import { Companies } from '../components/tabs/companies'
 import Welcome from './Welcome'
 import { Anouncements } from '../components/tabs/anouncements'
-import { useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
+import { userContext } from '../config/userContextProvider'
 export function CicRep() {
-    const location = useLocation();
-    const studentid = location.state.id;
-    if(studentid==null)return (<>Hi</>)
+    const {user,changed,tokenchanged}=useContext(userContext)
+  const studentid=user.id;
+  const role=user.role;
     return (
         <Flex
             w={'100%'}
@@ -25,10 +25,10 @@ export function CicRep() {
                 </TabList>
                 <TabPanels >
                     <TabPanel>
-                        < Anouncements role={role} name={location.state.name} id={location.state.id}/>
+                        < Anouncements role={role} name={user.name} id={user.id}/>
                     </TabPanel>
                     <TabPanel>
-                        <Companies role={role} name={location.state.name} id={location.state.id}/>
+                        <Companies role={role} name={user.name} id={user.id}/>
                     </TabPanel>
                 </TabPanels>
             </Tabs>

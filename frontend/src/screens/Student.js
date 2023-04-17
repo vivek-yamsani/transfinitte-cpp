@@ -6,9 +6,11 @@ import { Companies } from '../components/tabs/companies'
 import Welcome from './Welcome'
 import { Anouncements } from '../components/tabs/anouncements'
 import { useLocation } from 'react-router-dom'
+import { useContext } from 'react'
+import { userContext } from '../config/userContextProvider'
 export function Student() {
-    const location = useLocation();
-    const studentid=1;
+    const {user,changed}=useContext(userContext);
+    const studentid=user.id;
     return (
         <Flex
             w={'100%'}

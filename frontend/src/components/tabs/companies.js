@@ -21,13 +21,13 @@ export function Companies({ id, role,name }) {
     for(let i = 0; i < companies.length; i++){
         let item = companies[i];
         if(role ==='STUDENT')
-        companyCard=[...companyCard,<Companiescard isApplied={item.isApplied} id={item.company.id} title={item.company.name} sal={item.company.CTC} LastEdited={item.company.createdAt} name={name} role={item.company.role} personrole={role}/>]
+        companyCard=[...companyCard,<Companiescard isApplied={item.isApplied} id={item.company.id} title={item.company.name} sal={item.company.CTC} LastEdited={item.company.createdAt} name={name} role={item.company.role} personrole={role} application_status={item.application_status}/>]
         else
         companyCard=[...companyCard,<Companiescard isApplied={0} id={item.id} title={item.name} sal={200000} LastEdited={item.createdAt} name={name} role={item.role} personrole={role}/>]
 
     }
     useEffect(() => {
-        const res = GetCompanies({ id, Role: role }).then((data)=>{setcompanies(data)});
+        const res = GetCompanies({ id, Role: role }).then((data)=>{setcompanies(data);console.log(data);});
         console.log("Compnay rendering....");
     }, [])
     return (
@@ -56,7 +56,6 @@ export function Companies({ id, role,name }) {
                             }
                         }
                         )
-                        navigate(0);  
                 }}
             >
                 <AddIcon />
