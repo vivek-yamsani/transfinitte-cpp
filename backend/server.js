@@ -21,12 +21,7 @@ cors:{
 }
 })
 
-io.on('connect',(socket)=>{
-console.log("user connnected",socket.id);
-    socket.on('send_messege',(data)=>{
-        console.log('data');
-    })
-})
+
 
 app.use(cors());
 app.use(express.json());

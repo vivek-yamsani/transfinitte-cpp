@@ -19,6 +19,7 @@ export function UserProvider({children}){
         getDetails().then((res)=>{
             if(res.status==200){
                 setUser(res.data);
+                console.log("Response from details:", res.data);
             }else setUser({})
             setLoading(false);
         });

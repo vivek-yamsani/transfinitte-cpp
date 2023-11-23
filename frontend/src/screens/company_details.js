@@ -12,31 +12,29 @@ import {
 import { useEffect, useState } from "react";
 import { API_URL } from "../constants";
 import { Fetch } from "../fetch_function";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { userContext } from "../config/userContextProvider";
 import { useContext } from "react";
 import { AddShortlist } from "../components/forms/addShotlist";
 export default function Company_Details() {
     const [details, setDetails] = useState({});
-    const location = useLocation();
     const { user } = useContext(userContext);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const [status, setstatus] = useState('')
     const role = user.role;
     const navigate=useNavigate();
-
+    const params = useParams();
+    console.log("params", params);
+    
     useEffect(() => {
-        if (location.state) {
-            const id = location.state.id;
+            const id = params.id;
             console.log("id");
-            Fetch(`${API_URL}/companies/getdetails/${id}`).then((res) => res.json()).then((data) => { setDetails(data); console.log("Data from comapny:", data); });
-        }
-    }, []);
+            Fetch(`${API_URL}/companies/getdetails/${id}`).then((res) => res.json()).then((data) => { setDetails(data);console.log("data", details);});
+            Fetch(`${API_URL}/companies/getstatus/${id}`).then((res) => res.json()).then((data) => { setstatus(data.application_status);console.log("status", data.application_status != 'not yet applied')});
 
-    if (location.state == null) {
-        return <></>
-    }
+        }, []);
 
-    const companyid = location.state.id;
+    const companyid = params.id;
     const modal = (
         <Modal
             isOpen={isOpen}
@@ -105,7 +103,7 @@ export default function Company_Details() {
                         </>
                         :
                         <>
-                            <Button>
+                            <Button isDisabled={status != 'not yet applied'}>
                                 Mark As Applied
                             </Button>
                             <Button onClick={()=>{

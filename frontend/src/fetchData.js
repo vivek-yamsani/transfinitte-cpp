@@ -113,8 +113,9 @@ export const GetCompanies = async ({ id, role }) => {
     console.log("from get companies:", jsonRes);
     return jsonRes;
 }
-export const Signup = async ({ name, email, password, rollno, cgpa }) => {
 
+export const Signup = async ({ name, email, phoneno, password, rollno, cgpa }) => {
+    var phone = phoneno
     const res = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         body: JSON.stringify({
@@ -123,6 +124,7 @@ export const Signup = async ({ name, email, password, rollno, cgpa }) => {
             id: rollno,
             name,
             cgpa,
+            phone,
         }),
         headers: {
             'Content-Type': 'application/json',

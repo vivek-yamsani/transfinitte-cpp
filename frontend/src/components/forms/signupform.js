@@ -16,6 +16,7 @@ export default function SignupForm({ onClose }) {
     const [isLoading, setLoading] = useState(false);
     const [cg,setcg]=useState(0);
     const [rollno, setrollno] = useState('');
+    const [phoneno, setphoneno] = useState('');
     const [email, setemail] = useState('');
     const [password, setpassword] = useState('');
     const [name, setname] = useState('');
@@ -84,6 +85,14 @@ export default function SignupForm({ onClose }) {
                     setrollno(event.target.value)
                 }} value={rollno} color='blue.200' />
             </FormControl>
+
+            <FormControl paddingY={2}>
+                <FormLabel color={'white'}>Phone no</FormLabel>
+                <Input placeholder={'Enter your phone number'} onChange={(event) => {
+                    setphoneno(event.target.value)
+                }} value={phoneno} color='blue.200' />
+            </FormControl>
+
             <FormControl paddingY={2}>
                 <FormLabel color={'white'}>Email</FormLabel>
                 <Input placeholder={'Enter your email'} onChange={(event) => {
@@ -111,7 +120,7 @@ export default function SignupForm({ onClose }) {
                 <Button colorScheme='blue' mr={3} isLoading={isLoading}
                     onClick={async () => {
                         setLoading(true)
-                        const res = await Signup({ name, rollno, password, email,cgpa:cg });
+                        const res = await Signup({ name, rollno, phoneno, password, email,cgpa:cg });
                         setstatus(res);
                     }}
                 >

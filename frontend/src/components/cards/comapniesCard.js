@@ -56,14 +56,7 @@ export function Companiescard({ isApplied, sal, createdAt, title, name, role, id
                 cursor: "pointer"
             }}>
                 <BsChevronRight style={{ width: '50px', height: '35px' }} onClick={() => {
-                    navigate(
-                        '/app/company_details',
-                        {
-                            state: {
-                                id,
-                            }
-                        }
-                    )
+                    navigate(`/app/company_details/${id}`)
                 }
                 }
 

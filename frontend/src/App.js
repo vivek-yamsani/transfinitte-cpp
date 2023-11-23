@@ -22,13 +22,14 @@ function App() {
   const studentid=user.id;
   const [socket,setsocket]=useState(null);
   useEffect(()=>{
-    console.log("opoop");
+    console.log("User",user);
   })
   useEffect(()=>{
     if(socket==null){
     setsocket(io.connect(API_URL));
     console.log("conntection done");
   }
+
   },[socket])
 
   return (
@@ -43,7 +44,7 @@ function App() {
         spacing={5}
       >
         <HStack justify={'space-between'}>
-          <Text fontSize={'2xl'}>Hi!! {user.id}</Text>
+          <Text fontSize={'2xl'}>Hi!! {user.name}</Text>
           <Button onClick={() => {
             localStorage.removeItem("token");
             changed(!tokenchanged);
@@ -58,7 +59,7 @@ function App() {
               <Route path='/cicrep' element={user.role=='REPRESENTATIVE'?<CicRep/>:<Heading justifyContent={'center'}>UnAuthorized Access</Heading>} />
               <Route path='/addform' element={user.role !=='STUDENT'?<AddCompany/>:<Heading justifyContent={'center'}>UnAuthorized Access</Heading>} />
               <Route path='/announce_details' element={<Announce_Details role={user.role}/>} />
-              <Route path='/company_details' element={<Company_Details/>} role={user.role}/>
+              <Route path='/company_details/:id' element={<Company_Details role={user.role}/>}/>
               <Route path='/chat/:id' element={<ChatScreen/>} />
             </Routes>
           </HStack>

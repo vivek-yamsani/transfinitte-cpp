@@ -15,12 +15,9 @@ router.post("/add_rep", async (req, res) => {
                 message: "Unauthorized.."
             });
         }
-        await prisma.user.update({
+        await prisma.user.delete({
             where: {
                 id: rep_id
-            },
-            data: {
-                role: "REPRESENTATIVE"
             }
         });
 

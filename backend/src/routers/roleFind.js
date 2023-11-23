@@ -1,10 +1,18 @@
 const router = require("express").Router();
+const prisma = require("../helpers/prisma");
 
 router.get("/", async(req,res) => {
     try {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: req.id,
+            },
+        });
+        console.log(user);
         res.json({
             role: req.Role,
-            id:req.id
+            id:req.id,
+            name:user.name
         });
     } catch (err) {
         console.log(err);

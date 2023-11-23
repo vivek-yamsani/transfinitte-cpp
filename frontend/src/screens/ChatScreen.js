@@ -8,8 +8,11 @@ import {
     ModalOverlay,
     ModalCloseButton, VStack, HStack, Spacer, Flex, Divider, useColorModeValue, useDisclosure, useToast, Input
 } from "@chakra-ui/react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { API_URL } from "../constants";
+
+import { Fetch } from "../fetch_function";
 import { userContext } from "../config/userContextProvider";
 import { GetMesseges } from "../fetchData";
 import { AddMsg } from "../fetchData";
@@ -20,30 +23,39 @@ export default function ChatScreen() {
     const location = useLocation();
     const [msg, setmsg] = useState('');
     const [conv, setconv] = useState([]);
-    const { details } = location.state;
+    const [details, setDetails] = useState({})
+    const [isLoading, setLoading] = useState(false)
+    const id = useParams().id
     const usercontext = useContext(userContext);
     const { user } = usercontext;
     const { isOpen, onOpen, onClose } = useDisclosure();
     const toast = useToast()
 
     const fetch = async () => {
-        let messeges = await GetMesseges(details.id);
+        setLoading(true)
+        let messeges = await GetMesseges(id);
         if (messeges.status==200) {
             let temp = messeges.data;
             temp = await temp.map((x) => <Convcard data={x} key={x.id}></Convcard>)
             setconv(temp);
         }
+        Fetch(`${API_URL}/companies/getdetails/${id}`).then((res) => res.json()).then((data) => { setDetails(data);console.log("data", data);});
+        setLoading(false)
     }
+
     const mclose = () => {
         fetch();
         onClose();
     }
+
+
     useEffect(() => {
-        fetch();
+       fetch();
         // getusername(data.raisedbyid).then((data) => setraisedname(data))
     }, [])
+
     const addmsg = async () => {
-        let res = await AddMsg(user.id,details.id,msg);
+        let res = await AddMsg(user.id, details.id, msg);
         setmsg("");
         if (res.status != 200) {
             toast({

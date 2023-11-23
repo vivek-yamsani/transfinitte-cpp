@@ -49,11 +49,11 @@ export function Anouncements({ id, role, name }) {
     }, [])
     return (
         <HStack>
-            < Wrap spacing='10' py={10} direction='column' justify={'space-around'} overflowY={'scroll'} minH={'auto'} h={700} align='center' flex={1}>
+            <Wrap spacing='10' py={10} direction='column' justify={'space-around'} overflowY={'scroll'} minH={'auto'} h={700} align='center' flex={1}>
                 {(announcementCard.length === 0) ?
                     (<Heading color={'red'}>No Announcements  to show</Heading>) : announcementCard
                 }
-            </Wrap >
+            </Wrap>
             {
                 (role === 'REPRESENTATIVE') &&
                 <Button

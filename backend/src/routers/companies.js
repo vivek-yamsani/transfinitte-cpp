@@ -65,6 +65,25 @@ router.get("/all", async (req, res) => {
     }
 });
 
+router.get("/getstatus/:id", async (req, res)=>{
+    try{
+        const company_id = parseInt(req.params.id);
+        const student_id = req.id;
+        const status = await prisma.company_Applicant.findMany({
+            where: {
+                company_id,
+                student_id
+            },
+            select: {
+                application_status: true
+            }
+        });
+        console.log("Status", status);
+        res.json(status[0]);
+    }catch(err){
+
+    }
+})
 router.get("/getappliedstudents/:id", async (req, res) => {
     try {
         const company_id = parseInt(req.params.id);
